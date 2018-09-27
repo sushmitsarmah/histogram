@@ -115,6 +115,9 @@ const drawLine = (data, bins) => {
                 barsLeft.selectAll('rect').style('fill', '#ff0000');
                 barsRight.selectAll('rect').style('fill', '#0000ff');
 
+                d3.select('#points-left').text(dataLeft.length);
+                d3.select('#points-right').text(dataRight.length);
+
                 console.log('data left of line', dataLeft);
                 console.log('data right of line', dataRight);
             })
