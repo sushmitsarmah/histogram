@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Title</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+</head>
+<body>
+<nav class="navigation nav-box-shadow">
+    <div class="top-bar">
+
+        <div class="topbar-padding-mini d-sm-none flex-right toggle-navbar-fold-xs toggle-navbar-fold-sm">
+            <i class="appkiticon icon-outline-vertical-more action-icon"></i>
+        </div>
+        <span class="space w-100 d-sm-none d-block"></span>
+
+        <div class="flex-right navbar-fold-xs dropdown-fold fold">
+            <div>
+                <div class="dropdown dropdown-sample dropdown-default full-height-dropdown border-left-md darker">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="English">
+                        <span class="d-inline-block flag usd"></span>
+                        English
+                        <i class="appkiticon icon-outline-down-chevron dropdown-arrow" data-toggle="dropdown"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a title="English"><span class="d-inline-block flag usd"></span>English</a></li>
+                        <li><a title="Chinese"><span class="d-inline-block flag cny"></span>Chinese</a></li>
+                        <li><a title="English"><span class="d-inline-block flag gbp"></span>English</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="topbar-padding d-md-none d-sm-block d-none toggle-navbar-fold-xs toggle-navbar-fold-sm">
+                <i class="appkiticon icon-outline-vertical-more action-icon"></i>
+            </div>
+        </div>
+
+        <span class="space w-100 d-none d-sm-block d-md-none"></span>
+
+        <div class="navbar-fold-sm fold">
+            <div class="flex-right border-left-style topbar-padding">
+                <i class="appkiticon icon-outline-notification action-icon"></i>
+            </div>
+
+            <div class="logout-container border-left-style">
+                <div class="user-name">AB</div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<br>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-12">
+                <div id="hist-chart"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h6 class="panel-title">Test Plot</h6>
+                        <div class="col-20" style="text-align: center">
+                            <button class="button">Request</button>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="text-sm-center" style="text-align: -webkit-center" id="hist"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='libs/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='libs/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='libs/plotly-latest.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='libs/d3.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/plotly-chart.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>
