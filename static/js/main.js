@@ -1,10 +1,13 @@
 // DEFINE CONSTANTS
 // set the dimensions and margins of the graph
 const margin = { top: 10, right: 30, bottom: 30, left: 40 };
-const width = 960 - margin.left - margin.right;
+const bin_values = 100;
+const width = 2260 - margin.left - margin.right;
 const height = 500 - margin.top - margin.bottom;
 const color = 'steelblue';
 const API_URL = 'gethistdata';
+
+const formatYaxis = d3.formatPrefix(",.0f", 1e3);
 
 let svg, x, y, histogram, formatCount, colorScale, bar;
 
@@ -21,7 +24,7 @@ $(document).ready( async () => {
 
     histogram
         .domain(x.domain())
-        .thresholds(x.ticks(20));
+        .thresholds(x.ticks(bin_values));
 
     const bins = histogram(data);
 
@@ -71,7 +74,13 @@ const drawChart = (data) => {
     // add a rectangle to the bar group
     bar.append('rect')
         .classed('bar-rect', true)
-        .attr('width', d => x(d.x1) - x(d.x0) - 1)
+        .attr('width', d => {
+            const w = x(d.x1) - x(d.x0);
+            if(w > 1)
+                return w - 1;
+            else
+                return w;
+        })
         .attr('height', d => height - y(d.length) )
         .attr('fill', d => colorScale(d.length));      
 
@@ -80,7 +89,13 @@ const drawChart = (data) => {
         .classed('bar-text', true)
         .attr('dy', '.75em')
         .attr('y', -15)
-        .attr('x', d => (x(d.x1) - x(d.x0) - 1) / 2 )
+        .attr('x', d => {
+            const w = x(d.x1) - x(d.x0);
+            if (w > 1)
+                return (w - 1) / 2;
+            else
+                return w / 2;
+        })
         .attr('text-anchor', 'middle')
         .text(d => formatCount(d.length) );
 };
@@ -133,9 +148,9 @@ const drawAxes = () => {
     // add the x Axis
     svg.append('g')
         .attr('transform', 'translate(0,' + height + ')')
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x).ticks(bin_values));
 
     // add the y Axis
     svg.append('g')
-        .call(d3.axisLeft(y));  
+        .call(d3.axisLeft(y).tickFormat(formatYaxis));  
 };
