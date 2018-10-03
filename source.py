@@ -19,6 +19,10 @@ def test():
 def home():
     return render_template('index.html')
 
+@app.route('/center/<float:number>')
+def center(number):
+    return 'Center %f' % number  
+
 @app.route('/gethistdata')
 def first(): 
     train_df = pd.read_csv("Input/test.csv")

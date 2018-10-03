@@ -108,33 +108,15 @@ const drawLine = (data, bins) => {
             d3.drag()
             .on("drag", function (d) {
                 d3.select(this).attr('transform', `translate(${d3.event.x}, 0)`)
+                const inv = x.invert(d3.event.x);
+                d3.select('#center-point').text(inv);
+                changeBarColors(inv, data, bins);
             })
             .on('end', function (d) {
                 const inv = x.invert(d3.event.x);
-                const selectedBin = bins.filter( bin => {
-                    return inv >= bin.x0 && inv < bin.x1;
-                });
-                const dataLeft = data.filter( dat => {
-                    return dat <= inv;
-                });
-                const dataRight = data.filter(dat => {
-                    return dat > inv;
-                });
-                
-                const barsLeft = bar.filter( k => {
-                    return inv < k.x1;
-                });
-                const barsRight = bar.filter(k => {
-                    return inv >= k.x0;
-                });                
-                barsLeft.selectAll('rect').style('fill', '#ff0000');
-                barsRight.selectAll('rect').style('fill', '#0000ff');
-
-                d3.select('#points-left').text(dataLeft.length);
-                d3.select('#points-right').text(dataRight.length);
-
-                console.log('data left of line', dataLeft);
-                console.log('data right of line', dataRight);
+                d3.select('#center-point').text(inv);
+                // changeBarColors(inv, data, bins);
+                sendValueToServer(inv);
             })
         );
 
@@ -142,6 +124,44 @@ const drawLine = (data, bins) => {
         .attr('y1', 0)
         .attr('y2', height);
 }
+
+const changeBarColors = (inv, data, bins) => {
+    const selectedBin = bins.filter(bin => {
+        return inv >= bin.x0 && inv < bin.x1;
+    });
+    const dataLeft = data.filter(dat => {
+        return dat <= inv;
+    });
+    const dataRight = data.filter(dat => {
+        return dat > inv;
+    });
+
+    const barsLeft = bar.filter(k => {
+        return inv < k.x1;
+    });
+    const barsRight = bar.filter(k => {
+        return inv >= k.x0;
+    });
+    barsLeft.selectAll('rect').style('fill', '#ff0000');
+    barsRight.selectAll('rect').style('fill', '#0000ff');
+
+    d3.select('#points-left').text(dataLeft.length);
+    d3.select('#points-right').text(dataRight.length);
+
+    // console.log('data left of line', dataLeft);
+    // console.log('data right of line', dataRight);    
+
+}
+
+const sendValueToServer = (centValue) => {
+    $.ajax({
+        url: `center/${centValue}`,
+        success: function (result) {
+            console.log(result);
+        },
+        method: 'GET'
+    })
+};
 
 // draw the axes
 const drawAxes = () => {
